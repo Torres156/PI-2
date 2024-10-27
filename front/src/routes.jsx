@@ -6,6 +6,10 @@ import { ListStudent } from "./views/admin/dashboard/student/list";
 import { ListBooks } from "./views/admin/dashboard/books/list";
 import { ListLoans } from "./views/admin/dashboard/loans/list";
 import { CreateBook } from "./views/admin/dashboard/books/create";
+import { CreateLoans } from "./views/admin/dashboard/loans/create";
+import { ListUsers } from "./views/admin/dashboard/users/list";
+import { CreateUsers } from "./views/admin/dashboard/users/create";
+import { LayoutSite } from "./views/site/includes/layout";
 
 export default function AppRoutes()
 {
@@ -21,6 +25,12 @@ export default function AppRoutes()
             <Route path="/admin/books/create" element={<CreateBook />}></Route>
 
             <Route path="/admin/loans" element={<ListLoans />}></Route>
+            <Route path="/admin/loans/create" element={<CreateLoans />}></Route>
+
+            <Route path="/admin/users" element={<ListUsers />}></Route>
+            <Route path="/admin/users/create" element={<CreateUsers />}></Route>
+
+            <Route path="/" element={<LayoutSite />} />
 
             <Route path="*" element={"Não encontrado!"}></Route>     
         </Routes>                
