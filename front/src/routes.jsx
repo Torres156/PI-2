@@ -9,7 +9,7 @@ import { CreateBook } from "./views/admin/dashboard/books/create";
 import { CreateLoans } from "./views/admin/dashboard/loans/create";
 import { ListUsers } from "./views/admin/dashboard/users/list";
 import { CreateUsers } from "./views/admin/dashboard/users/create";
-import { LayoutSite } from "./views/site/includes/layout";
+import { Home } from "./views/site/home";
 
 export default function AppRoutes()
 {
@@ -30,7 +30,7 @@ export default function AppRoutes()
             <Route path="/admin/users" element={<ListUsers />}></Route>
             <Route path="/admin/users/create" element={<CreateUsers />}></Route>
 
-            <Route path="/" element={<LayoutSite />} />
+            <Route path="/" element={<Home />} />
 
             <Route path="*" element={"Não encontrado!"}></Route>     
         </Routes>                

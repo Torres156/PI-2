@@ -1,8 +1,6 @@
 import { Button, Card } from 'react-bootstrap'
 import Layout from './includes/layout'
 import CSSProperties, { useState } from 'react'
-import logo from '../../../assets/logo.png'
-import background from '../../../assets/login-bg.jpg'
 import SweetAlert2 from 'react-sweetalert2'
 
 export default function AdminLogin () {
@@ -21,7 +19,7 @@ export default function AdminLogin () {
       })
     }
   return (
-    <Layout style={{ background: `url('${background}')` }} >
+    <Layout style={{ background: `url('/assets/login-bg.jpg')` }} >
       <Card
         className='d-flex p-0 align-items-center'
         style={{
@@ -35,7 +33,7 @@ export default function AdminLogin () {
           backgroundColor: 'rgba(255,255,255,0.1)'        
         }}
       >
-        <img src={logo} width={300}></img>
+        <img src='/assets/logo.png' width={300}></img>
 
         <form className='w-100 px-4' autoComplete='off' onSubmit={onSubmit}>
           <div class='form-group'>
