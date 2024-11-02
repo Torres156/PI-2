@@ -11,6 +11,7 @@ import { ListUsers } from "./views/admin/dashboard/users/list";
 import { CreateUsers } from "./views/admin/dashboard/users/create";
 import { Home } from "./views/site/home";
 import { Galeria } from "./views/site/galeria";
+import { Book } from "./views/site/book";
 
 export default function AppRoutes()
 {
@@ -33,6 +34,7 @@ export default function AppRoutes()
 
             <Route path="/" element={<Home />} />
             <Route path="/galeria" element={<Galeria />} />
+            <Route path="/book" element={<Book />} />
 
             <Route path="*" element={"Não encontrado!"}></Route>     
         </Routes>                

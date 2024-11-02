@@ -81,7 +81,7 @@ export function Home () {
               {text}
             </p>
             <OverlayTrigger placement="right" overlay={tooltipPlay}>
-                <span style={{ cursor: 'pointer' }} onClick={onPlay}><i class="bi bi-play-circle-fill"></i></span>
+                <span style={{ cursor: 'pointer',color:'white' }} onClick={onPlay}><i class="bi bi-play-circle-fill"></i></span>
             </OverlayTrigger>
           </Col>
           <Col xs={4}>

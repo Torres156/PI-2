@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { LayoutSite } from './includes/layout'
 import { CardContent } from '@mui/material'
 
@@ -55,90 +55,28 @@ export function Galeria () {
           </Row>
 
           <ul className='mt-4 grid'>
-            <li>
-              <Card>
-                <CardContent
-                  className='d-flex flex-row gap-4'
-                  style={{ maxHeight: '200px' }}
-                >
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>{text}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
-            <li>
-              <Card>
-                <CardContent
-                  className='d-flex flex-row gap-4'
-                  style={{ maxHeight: '200px' }}
-                >
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>{text}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
+            {[...Array(6).keys()].map(num => (
+              <li>
+                <Card>
+                  <CardContent
+                    className='d-flex flex-row gap-4'
+                    style={{ maxHeight: '200px' }}
+                  >
+                    <div className='capa align-self-center'></div>
+                    <div className='d-flex flex-column gap-2'>
+                      <div className='text-wrap col'>
+                        <h3>Titulo</h3>
+                        <p className='m-0'>{text}</p>
+                      </div>
 
-            <li>
-              <Card>
-                <CardContent className='d-flex flex-row gap-4' style={{ maxHeight: '200px' }}>
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>
-                        {text}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
-
-            <li>
-              <Card>
-                <CardContent className='d-flex flex-row gap-4' style={{ maxHeight: '200px' }}>
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>
-                        {text}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
-
-            <li>
-              <Card>
-                <CardContent className='d-flex flex-row gap-4' style={{ maxHeight: '200px' }}>
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>
-                        {text}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
-
-            <li>
-              <Card>
-                <CardContent className='d-flex flex-row gap-4' style={{ maxHeight: '200px' }}>
-                  <div className='capa align-self-center'></div>
-                  <div className='text-wrap'>
-                    <h3>Titulo</h3>
-                    <p className='m-0'>
-                        {text}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </li>
+                      <div className='text-wrap'>
+                        <a href='/book'><button className='button'>Ver mais</button></a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </li>
+            ))}
           </ul>
         </Container>
       </div>
