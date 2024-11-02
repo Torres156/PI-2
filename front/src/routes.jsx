@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router-dom";
+import { Navigate, Route, Router, Routes } from "react-router-dom";
 import AdminLogin from "./views/admin/login";
 import { AdminDashboard } from "./views/admin/dashboard";
 import { CreateStudent } from "./views/admin/dashboard/student/create";
@@ -17,6 +17,7 @@ export default function AppRoutes()
 {
     return (        
         <Routes>
+            <Route path="/admin/*" element={<Navigate to='/admin/dashboard'/>}></Route>  
             <Route path="/admin/auth" element={<AdminLogin />}></Route>
             <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
 
@@ -31,6 +32,7 @@ export default function AppRoutes()
 
             <Route path="/admin/users" element={<ListUsers />}></Route>
             <Route path="/admin/users/create" element={<CreateUsers />}></Route>
+             
 
             <Route path="/" element={<Home />} />
             <Route path="/galeria" element={<Galeria />} />
