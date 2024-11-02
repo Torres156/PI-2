@@ -77,7 +77,7 @@ export function Home () {
             <h2 style={{ color: 'white', fontSize: '30px' }}>TESTE</h2>
             <span style={{ color: '#fff2a3' }}>Autor: Sonhador</span>
             <hr />
-            <p>
+            <p className='home-desc'>
               {text}
             </p>
             <OverlayTrigger placement="right" overlay={tooltipPlay}>

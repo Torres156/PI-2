@@ -10,6 +10,7 @@ import { CreateLoans } from "./views/admin/dashboard/loans/create";
 import { ListUsers } from "./views/admin/dashboard/users/list";
 import { CreateUsers } from "./views/admin/dashboard/users/create";
 import { Home } from "./views/site/home";
+import { Galeria } from "./views/site/galeria";
 
 export default function AppRoutes()
 {
@@ -31,6 +32,7 @@ export default function AppRoutes()
             <Route path="/admin/users/create" element={<CreateUsers />}></Route>
 
             <Route path="/" element={<Home />} />
+            <Route path="/galeria" element={<Galeria />} />
 
             <Route path="*" element={"Não encontrado!"}></Route>     
         </Routes>                
