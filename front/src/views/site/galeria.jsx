@@ -1,18 +1,22 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { LayoutSite } from './includes/layout'
 import { CardContent } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { GetResponse } from '../../app/helpers/httpHelper'
+import { GetApi } from '../../app/Enviroment'
 
 export function Galeria () {
-  const text = `Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.`
+  const [dados, setDados] = useState()
+  const [busca, setBusca] = useState('');
+  function search()
+  {    
+    GetResponse('dados/livros', {busca: busca}).then(res => setDados(res.data));
+  }
+
+  useEffect(() => {
+    search();
+  },[])
+
   return (
     <LayoutSite menu='galeria'>
       <div className='text-center row' style={{ padding: '5rem 0' }}>
@@ -34,8 +38,15 @@ export function Galeria () {
                   className='w-100 '
                   name='search'
                   placeholder='Faça sua busca aqui:'
+                  value={busca}
+                  onChange={e => {setBusca(e.target.value)}}
+                  onBlur={() => {search()}}
+                  onKeyUp={e => {                    
+                    if (e.key == 'Enter')
+                      search();
+                  }}
                 />
-                <button className='position-absolute button-search'>
+                <button className='position-absolute button-search' onClick={() => {search()}}>
                   <svg
                     className='object-contain h-full w-full'
                     width='23'
@@ -55,22 +66,22 @@ export function Galeria () {
           </Row>
 
           <ul className='mt-4 grid'>
-            {[...Array(6).keys()].map(num => (
+            {dados?.data?.map(x => (
               <li>
                 <Card>
                   <CardContent
                     className='d-flex flex-row gap-4'
                     style={{ maxHeight: '200px' }}
                   >
-                    <div className='capa align-self-center'></div>
+                    <div className='capa align-self-center' style={{ backgroundImage: `url(${GetApi()}/uploads/img/livro/${x.nm_foto})` }}></div>
                     <div className='d-flex flex-column gap-2'>
                       <div className='text-wrap col'>
-                        <h3>Titulo</h3>
-                        <p className='m-0'>{text}</p>
+                        <h3>{x.nome}</h3>
+                        <p className='m-0'>{x.resumo}</p>
                       </div>
 
                       <div className='text-wrap'>
-                        <a href='/book'><button className='button'>Ver mais</button></a>
+                        <a href={'/book/' + x.id}><button className='button'>Ver mais</button></a>
                       </div>
                     </div>
                   </CardContent>

@@ -18,6 +18,7 @@ import { User } from './app/models/User'
 import { Navigate, Outlet } from 'react-router-dom';
 import { EditStudent } from './views/admin/dashboard/student/edit'
 import { EditBook } from './views/admin/dashboard/books/edit'
+import { EditUsers } from './views/admin/dashboard/users/edit'
 
 export default function AppRoutes() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -67,8 +68,10 @@ export default function AppRoutes() {
 
           <Route path="/admin/loans" element={<ListLoans />} />
           <Route path="/admin/loans/create" element={<CreateLoans />} />
+
           <Route path="/admin/users" element={<ListUsers />} />
           <Route path="/admin/users/create" element={<CreateUsers />} />
+          <Route path="/admin/users/:id" element={<EditUsers />} />
         </Route>
 
         {/* Login do admin */}
@@ -77,7 +80,7 @@ export default function AppRoutes() {
         {/* Rotas públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/galeria" element={<Galeria />} />
-        <Route path="/book" element={<Book />} />
+        <Route path="/book/:id" element={<Book />} />
 
         {/* Página 404 */}
         <Route path="*" element={'Não encontrado!'} />

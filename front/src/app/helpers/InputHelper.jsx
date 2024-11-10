@@ -72,13 +72,17 @@ export function useForm(initialValues) {
     }));
   };
 
-  const handleChangeWithKey = (e, key) => {
+  const handleChangeWithKey = (e, key) => {        
     const { value } = e.target;
+    
     setValues(prevValues => ({
       ...prevValues,
       [key]: value,
     }));
   };
 
-  return [values, setValues, handleChange];
+
+  return [values, setValues, handleChange, handleChangeWithKey];
 }
+
+

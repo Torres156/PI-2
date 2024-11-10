@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'mysql_prod',
 
     /*
     |--------------------------------------------------------------------------
@@ -49,6 +49,26 @@ return [
             'port' => '3306',
             'database' => 'integrador',
             'username' => 'root',
+            'password' => '123456',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+        'mysql_prod' => [
+            'driver' => 'mysql',
+            'url' => env('DB_URL'),
+            'host' => '177.152.98.197',
+            'port' => '3306',
+            'database' => 'integrador',
+            'username' => 'torres',
             'password' => '123456',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),

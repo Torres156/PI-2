@@ -75,6 +75,19 @@ export function DeleteResponse(route = '', params)
     return axios.delete(url, { headers: header, data: params });
 }
 
+export function PutResponse(route = '', params)
+{
+    let url = GetApi() + route;
+    const jsonData = JSON.stringify(params);
+
+    let header = headersJson;    
+    const user = User.Get();
+    if (user)
+        header['Authorization'] = user.Token;
+
+    return axios.put(url, jsonData, { headers: header});
+}
+
 export function PostUploadResponse(route = '', params)
 {
     let url = GetApi() + route;

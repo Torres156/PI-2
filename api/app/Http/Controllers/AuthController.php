@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
+
+use const App\Helpers\HTTP_BAD_REQUEST;
 
 class AuthController extends Controller
 {
@@ -31,11 +34,11 @@ class AuthController extends Controller
 
         $usuario = User::where('email', $email)->first();
         if (!$usuario)
-            return response('Usuário não encontrado!', HTTP_BAD_REQUEST);
+            return response('Usuário não encontrado!', Response::HTTP_NOT_FOUND);
 
         $password = $usuario->password;        
         if (!Hash::check($senha, $password))
-            return response('Usuário ou senha inválida!', HTTP_BAD_REQUEST);
+            return response('Usuário ou senha inválida!', Response::HTTP_BAD_REQUEST);
             
         $token = Str::random(32);
 

@@ -115,7 +115,7 @@ export function LayoutSite ({ children, menu = 'home' }) {
           <Container>
             <Row className='gap-4'>
               <Col className='gap-4'>
-                <img src='/assets/logo.png' width={150} />
+                <img src='/assets/logo-white.png' width={150} />
                 <img src='/assets/univesp.webp' width={150} />
               </Col>
               <Col

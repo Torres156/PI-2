@@ -38,4 +38,24 @@ class EmprestimoController extends Controller
 
         return response('Empréstimo/Devolução deletado com sucesso!');
     }
+
+    function devolver($id)
+    {
+        $emprestimo = Emprestimo::find($id);
+        $emprestimo->status = "DEVOLVIDO";
+        $emprestimo->save();
+
+        return response("Empréstimo devolvido com sucesso!");
+    }
+
+    function emprestados()
+    {
+        $emprestimos = Emprestimo::with('aluno', 'livro')
+        ->where('status', 'EMPRESTADO')
+        ->orderBy('id', 'desc')
+        ->limit(5)
+        ->get();
+
+        return response()->json($emprestimos);
+    }
 }

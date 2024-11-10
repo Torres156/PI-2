@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
 
+use const App\Helpers\HTTP_NOT_FOUND;
+
 class AlunoController extends Controller
 {
     function criar(Request $request)

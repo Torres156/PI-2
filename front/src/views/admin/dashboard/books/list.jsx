@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Layout } from '../includes/layout'
 import { getSwal } from '../../../../app/helpers/SwalHelper'
 import { useSearchParams } from 'react-router-dom'
-import { GetResponse } from '../../../../app/helpers/httpHelper'
+import { DeleteResponse, GetResponse } from '../../../../app/helpers/httpHelper'
 
 export function ListBooks () {
   const swal = getSwal()
@@ -32,6 +32,29 @@ export function ListBooks () {
         )
       })
   }, [])
+
+  const onDelete = (id) => {
+    swal.fire({
+      title: '',
+      text: 'Você tem certeza que quer deletar este livro?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sim',
+      showDenyButton: true,
+      denyButtonText: 'Não',     
+    }).then(result => {
+      if (result.isConfirmed)
+      {
+        DeleteResponse(`livros/deletar/${id}`).then(res => {
+          swal.fire({title: '', text: 'Livro deletado com sucesso!', icon: 'success'}).then((result) => {
+            window.location.reload();
+          })
+        }).catch(err => {
+          swal.fire({title: 'Ops! Aconteceu um problema.', text: 'Erro ao deletar livro', icon: 'error'});
+        })
+      }
+    })
+  }
 
   return (
     <Layout>
@@ -84,6 +107,7 @@ export function ListBooks () {
                         fontSize: '14px',
                         fontWeight: 'bold'
                       }}
+                      onClick={() => {onDelete(livro.id)}}
                     >
                       <i className='bi bi-trash'></i>
                     </button>

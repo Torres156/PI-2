@@ -1,23 +1,33 @@
-import { PostResponse } from '../../../../app/helpers/httpHelper';
+import { useEffect, useState } from 'react';
+import { GetResponse, PostResponse } from '../../../../app/helpers/httpHelper';
 import {
   OnlyDate,
   OnlyNumbers,
-  OnlyPhone
+  OnlyPhone,
+  useForm
 } from '../../../../app/helpers/InputHelper'
 import { getSwal } from '../../../../app/helpers/SwalHelper';
 import { Layout } from '../includes/layout'
+import { useParams } from 'react-router-dom';
 
-export function CreateUsers () {
+export function EditUsers () {
   const swal = getSwal();
+  const [usuario, setUsuario, ,handleChangeWithKey] = useForm({});
+  const {id} = useParams();
 
+  useEffect(() => {
+    GetResponse('usuarios/' + id).then(res => setUsuario(res.data));
+  },[])
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
     swal.showLoading();
     const formData = new FormData(e.target);
-    PostResponse('usuarios/criar', Object.fromEntries(formData)).then(res => {
+    formData.append('id', id);
+    PostResponse('usuarios/salvar', Object.fromEntries(formData)).then(res => {
       swal.fire({
-        text: 'Usuario criado com sucesso!',
+        text: 'Usuario editado com sucesso!',
         icon: 'success',
         timer: 3000,
       }).then(res => {
@@ -33,7 +43,7 @@ export function CreateUsers () {
     <Layout>
       <div className='card'>
         <div className='card-content p-4'>
-          <h3>Cadastro de Usuário</h3>
+          <h3>Edição de Usuário</h3>
           <hr />
           <form onSubmit={handleSubmit} autoComplete='off'>
             <div className='row gap-2'>
@@ -43,6 +53,8 @@ export function CreateUsers () {
                   className='form-control'
                   name='nome'
                   maxLength={50}
+                  value={usuario.name}
+                  onChange={e => { handleChangeWithKey(e, 'name'); }}
                   required
                   data-auto-off
                   autoComplete='new-password'
@@ -50,14 +62,13 @@ export function CreateUsers () {
                 />
               </div>             
               <div className='col form-group'>
-                <label>Senha*</label>
+                <label>Senha (Deixe em branco para não for trocar a senha)</label>
                 <input
                   type='password'
                   className='form-control'
                   name='senha'
                   maxLength={50}
-                  minLength={4}
-                  required
+                  minLength={4}                                    
                   autoComplete='new-password'
                 />
               </div>        
@@ -72,7 +83,9 @@ export function CreateUsers () {
                   name='email'
                   maxLength={50}
                   required
+                  value={usuario.email}
                   autoComplete='new-password'
+                  disabled
                 />
               </div>              
             </div>

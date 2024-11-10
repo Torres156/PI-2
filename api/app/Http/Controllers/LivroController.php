@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\FotoHelper;
 use App\Models\Livro;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+use const App\Helpers\HTTP_NOT_FOUND;
 
 class LivroController extends Controller
 {
@@ -35,7 +38,7 @@ class LivroController extends Controller
     {
         $livro = Livro::find($id);
         if (!$livro)        
-            return response('Livro não encontrado!', HTTP_NOT_FOUND);
+            return response('Livro não encontrado!', Response::HTTP_NOT_FOUND);
 
         $livro['imagem'] = $livro->nm_foto ? asset('uploads/img/livro/' . $livro->nm_foto) : '';
         return response()->json($livro);
@@ -64,5 +67,13 @@ class LivroController extends Controller
         $livro->save();
 
         return response('Livro editado com sucesso!');
+    }
+
+    function deletar($id)
+    {
+        $livro = Livro::find($id);
+        $livro->delete();
+
+        return response('Livro excluido com sucesso!');
     }
 }
