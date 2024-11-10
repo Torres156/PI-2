@@ -1,15 +1,48 @@
+import { useState } from 'react';
+import { PostResponse } from '../../../../app/helpers/httpHelper';
 import {
   OnlyDate,
   OnlyNumbers,
   OnlyPhone
-} from '../../../../helpers/InputHelper'
+} from '../../../../app/helpers/InputHelper'
 import { Layout } from '../includes/layout'
+import SweetAlert2 from 'react-sweetalert2'
 
 export function CreateStudent () {
   const options = Array.from({ length: 5 }, (_, i) => i + 1)
+  const [swalProps, setSwalProps] = useState({})
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    console.log(data);
+
+    PostResponse('alunos/criar', data).then(res => {
+      setSwalProps({
+        show: true,
+        html: res.data,
+        title: 'Operação feita com sucesso!',
+        icon: 'success',
+        onConfirm: () => {
+          setSwalProps({})
+          window.location.href = '/admin/student'
+        }
+      })
+    }).catch(err => {
+    console.log(err);
+      setSwalProps({
+        show: true,
+        html: err.data,
+        title: 'Ops! Aconteceu um problema!',
+        icon: 'error',
+        onConfirm: () => {
+          setSwalProps({})
+        }
+      })
+    })
   }
 
   return (
@@ -50,8 +83,7 @@ export function CreateStudent () {
                   className='form-control'
                   type='email'
                   name='email'
-                  maxLength={50}
-                  required
+                  maxLength={100}                  
                   autoComplete='new-password'
                 />
               </div>
@@ -60,7 +92,8 @@ export function CreateStudent () {
                 <input
                   className='form-control'
                   onChange={OnlyDate}
-                  name='nascimento'
+                  name='dt_nascimento'
+                  minLength={10}
                   maxLength={10}
                   required
                 />
@@ -103,6 +136,7 @@ export function CreateStudent () {
           </form>
         </div>
       </div>
+      <SweetAlert2 {...swalProps} />
     </Layout>
   )
 }

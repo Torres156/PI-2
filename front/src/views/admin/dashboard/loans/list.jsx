@@ -1,52 +1,60 @@
 import { useEffect, useState } from 'react'
 import { Layout } from '../includes/layout'
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import SweetAlert2 from 'react-sweetalert2';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import SweetAlert2 from 'react-sweetalert2'
+import { getSwal } from '../../../../app/helpers/SwalHelper'
+import { DeleteResponse, GetResponse, PostResponse } from '../../../../app/helpers/httpHelper'
+import { toDataDisplay } from '../../../../app/helpers/dataHelper'
 
 export function ListLoans () {
   const [swalProps, setSwalProps] = useState({})
+  const swal = getSwal()
 
-  const tooltipDevolver = (
-    <Tooltip id="tooltip">
-      Devolver
-    </Tooltip>
-  );
+  const [emprestimos, setEmprestimos] = useState([])
 
-  const devolver = () =>
-  {
-     setSwalProps({
-        show: true,
-        html: 'Deseja realmente fazer a devolução?',
-        title: 'Devolução',
-        showCancelButton: true,
-        icon: 'warning',        
-        onResolve: (e) => {
-          setSwalProps({}); 
-          if (e.isConfirmed)
-          {
+  useEffect(() => {
+    GetResponse('emprestimos').then(res => {
+      setEmprestimos(res.data)
+    })
+  }, [])
 
-          }
+  const tooltipDevolver = <Tooltip id='tooltip'>Devolver</Tooltip>
+
+  const devolver = () => {
+    setSwalProps({
+      show: true,
+      html: 'Deseja realmente fazer a devolução?',
+      title: 'Devolução',
+      showCancelButton: true,
+      icon: 'warning',
+      onResolve: e => {
+        setSwalProps({})
+        if (e.isConfirmed) {
         }
-      })
+      }
+    })
   }
 
-  const excluir = () =>
-    {
-       setSwalProps({
-          show: true,
-          html: 'Deseja realmente excluir este empréstimo?',
-          title: 'Excluir',
-          showCancelButton: true,
-          icon: 'warning',        
-          onResolve: (e) => {
-            setSwalProps({}); 
-            if (e.isConfirmed)
-            {
-  
-            }
-          }
-        })
-    }
+  const excluir = (id) => {
+    setSwalProps({
+      show: true,
+      html: 'Deseja realmente excluir este empréstimo?',
+      title: 'Excluir',
+      showCancelButton: true,
+      icon: 'warning',
+      onResolve: e => {
+        setSwalProps({})
+        if (e.isConfirmed) {
+          DeleteResponse('emprestimos/deletar/' + id).then(res => {
+            swal.fire('', 'Empréstimo/Devolução excluido com sucesso!', 'success');
+            window.location.reload();
+          }).catch(err => {
+            swal.fire('Ops! Aconteceu algo errado.', 'Erro ao excluir o Empréstimo/Devolução', 'error');
+          })
+        }
+      }
+    })
+  }
 
   return (
     <Layout>
@@ -72,27 +80,47 @@ export function ListLoans () {
                 <th scope='col'>Livro</th>
                 <th scope='col'>Status</th>
                 <th scope='col'>Devolução</th>
-                <th scope='col' style={{ width: "100px" }}>Ações</th>
+                <th scope='col' style={{ width: '100px' }}>
+                  Ações
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope='row'>1</th>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td>Emprestado</td>
-                <td>01/11/2024</td>
-                <td className='d-flex justify-content-center'>
-                  <OverlayTrigger placement="left" overlay={tooltipDevolver}>
-                    <button className='btn btn-primary p-2' style={{  color:"white", fontSize: "14px", fontWeight: "bold" }} onClick={devolver}>
+              {emprestimos.map(x => (
+                <tr>
+                  <th scope='row'>{x.id}</th>
+                  <td>{x.aluno.nome}</td>
+                  <td>{x.livro.nome}</td>
+                  <td>{x.status}</td>
+                  <td>{toDataDisplay(x.dt_entrega)}</td>
+                  <td className='d-flex justify-content-center'>
+                    <OverlayTrigger placement='left' overlay={tooltipDevolver}>
+                      <button
+                        className='btn btn-primary p-2'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          fontWeight: 'bold'
+                        }}
+                        onClick={devolver}
+                      >
                         <i className='bi bi-arrow-down-right-circle'></i>
+                      </button>
+                    </OverlayTrigger>
+                    <button
+                      className='btn btn-danger p-2 mx-1'
+                      style={{
+                        color: 'white',
+                        fontSize: '14px',
+                        fontWeight: 'bold'
+                      }}
+                      onClick={() => {excluir(x.id)}}
+                    >
+                      <i className='bi bi-trash'></i>
                     </button>
-                  </OverlayTrigger>
-                    <button className='btn btn-danger p-2 mx-1' style={{  color:"white", fontSize: "14px", fontWeight: "bold" }} onClick={excluir}>
-                        <i className='bi bi-trash'></i>
-                    </button>
-                </td>
-              </tr>             
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,38 @@
+import { useEffect, useState } from 'react'
 import { Layout } from '../includes/layout'
+import { getSwal } from '../../../../app/helpers/SwalHelper'
+import { useSearchParams } from 'react-router-dom'
+import { GetResponse } from '../../../../app/helpers/httpHelper'
 
 export function ListBooks () {
+  const swal = getSwal()
+  const [livros, setLivros] = useState([])
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    swal.showLoading()
+    GetResponse('livros')
+      .then(res => {
+        setLivros(res.data)
+        swal.close()
+
+        const err = searchParams.get('err')
+        if (err) {
+          swal.fire('Ops! Aconteceu um problema.', err, 'error')
+          searchParams.delete('err')
+          setSearchParams(searchParams)
+        }
+      })
+      .catch(err => {
+        swal.fire(
+          'Ops! Aconteceu um problema.',
+          'Erro ao carregar listagem',
+          'error'
+        )
+      })
+  }, [])
+
   return (
     <Layout>
       <div className='card'>
@@ -23,23 +55,41 @@ export function ListBooks () {
                 <th scope='col'>#</th>
                 <th scope='col'>Nome</th>
                 <th scope='col'>Autor</th>
-                <th scope='col' style={{ width: "100px" }}>Ações</th>
+                <th scope='col' style={{ width: '100px' }}>
+                  Ações
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope='row'>1</th>
-                <td>Teste</td>
-                <td>Teste</td>
-                <td className='d-flex justify-content-center'>
-                    <button className='btn btn-primary p-2' style={{  color:"white", fontSize: "14px", fontWeight: "bold" }}>
-                        <i className='bi bi-pencil-fill'></i>
+              {livros.map(livro => (
+                <tr>
+                  <th scope='row'>{livro.id}</th>
+                  <td>{livro.nome}</td>
+                  <td>{livro.autor}</td>
+                  <td className='d-flex justify-content-center'>
+                    <button onClick={() => { window.location.href = `/admin/books/${livro.id}` } }
+                      className='btn btn-primary p-2'
+                      style={{
+                        color: 'white',
+                        fontSize: '14px',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      <i className='bi bi-pencil-fill'></i>
                     </button>
-                    <button className='btn btn-danger p-2 mx-1' style={{  color:"white", fontSize: "14px", fontWeight: "bold" }}>
-                        <i className='bi bi-trash'></i>
+                    <button
+                      className='btn btn-danger p-2 mx-1'
+                      style={{
+                        color: 'white',
+                        fontSize: '14px',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      <i className='bi bi-trash'></i>
                     </button>
-                </td>
-              </tr>             
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

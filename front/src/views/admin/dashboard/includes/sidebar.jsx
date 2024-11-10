@@ -1,4 +1,5 @@
 import { ButtonToolbar, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "react-bootstrap"
+import { User } from "../../../../app/models/User"
 
 export function Menu ({children}) {
   return (
@@ -10,7 +11,7 @@ export function Menu ({children}) {
               href='/'
               className='d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none'
             >
-              <span className='fs-5 d-none d-sm-inline'><img src='/assets/logo.pgn' className="w-100"></img> </span>
+              <span className='fs-5 d-none d-sm-inline'><img src='/assets/logo-white.png' className="w-100"></img> </span>
             </a>
             <ul
               className='nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start'
@@ -80,7 +81,10 @@ export function Menu ({children}) {
               </DropdownToggle>   
 
               <DropdownMenu>
-                <DropdownItem>Sair</DropdownItem>
+                <DropdownItem onClick={() => {
+                  User.Clear();
+                  window.location.reload();
+                }}>Sair</DropdownItem>
               </DropdownMenu>        
             </Dropdown>     
 

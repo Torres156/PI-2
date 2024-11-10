@@ -1,16 +1,33 @@
+import withReactContent from 'sweetalert2-react-content';
+import { PostUploadResponse } from '../../../../app/helpers/httpHelper';
 import {
   ImageTo,
   OnlyDate,
   OnlyNumbers,
   OnlyPhone
-} from '../../../../helpers/InputHelper'
+} from '../../../../app/helpers/InputHelper'
 import { Layout } from '../includes/layout'
+import Swal from 'sweetalert2';
 
-export function CreateBook () {
-  const options = ['']
+export function CreateBook () {  
+
+  const swal = withReactContent(Swal);
 
   const handleSubmit = e => {
     e.preventDefault()
+
+    const formData = new FormData(e.target);
+    PostUploadResponse('livros/criar', formData).then(res => {
+      swal.fire({
+        text: 'Livro criado com sucesso!',
+        icon: 'success',
+        timer: 3000,
+      }).then(res => {
+        window.location.href = '/admin/books'
+      });
+    }).catch(err=> {
+      swal.fire('Ops! Aconteceu um problema.', 'Erro ao criar livro.', 'error');
+    })
   }
 
   const imagemCss = {    
@@ -35,9 +52,9 @@ export function CreateBook () {
                   className='form-control'
                   name='code'
                   maxLength={50}
-                  required
+                  value={'Automático'}                  
                   autoComplete='new-password'
-                  readOnly
+                  disabled
                 />
               </div>
               <div className='col form-group'>
@@ -90,18 +107,16 @@ export function CreateBook () {
                   className='form-control'
                   name='categoria'
                   maxLength={100}
-                  autoComplete='new-password'
-                  required
+                  autoComplete='new-password'                  
                 />
               </div>
               <div className='col-1 form-group' style={{ minWidth: "150px" }}>
                 <label>Faixa Etária</label>
                 <input
                   className='form-control'
-                  name='etaria'
+                  name='faixa_etaria'
                   maxLength={2}
-                  autoComplete='new-password'
-                  required
+                  autoComplete='new-password'                                    
                   onInput={OnlyNumbers}
                 />
               </div>
@@ -129,7 +144,7 @@ export function CreateBook () {
                   className='form-control'
                   name='resumo'
                   maxLength={1000}
-                  autoComplete='new-password'                  
+                  autoComplete='new-password' 
                 />
               </div>              
             </div>

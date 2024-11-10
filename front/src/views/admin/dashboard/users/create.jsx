@@ -2,7 +2,7 @@ import {
   OnlyDate,
   OnlyNumbers,
   OnlyPhone
-} from '../../../../helpers/InputHelper'
+} from '../../../../app/helpers/InputHelper'
 import { Layout } from '../includes/layout'
 
 export function CreateUsers () {

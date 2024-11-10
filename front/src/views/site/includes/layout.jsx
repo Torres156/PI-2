@@ -41,7 +41,7 @@ export function LayoutSite ({ children, menu = 'home' }) {
         >
           <Container>
             <NavbarBrand href='/'>
-              <img src='/assets/logo.png' width={150} />
+              <img src='/assets/logo-white.png' width={150} />
             </NavbarBrand>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
